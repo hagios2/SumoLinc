@@ -7,34 +7,25 @@
         @include('includes.errors')
 
 
-        <div class="container">
+        <div class="col-md-11">
 
-            <div class="card" style="max-width: 120rem;">
+            <div class="card">
 
+            <div class="row">
 
-                <img src="storage/images/{{ $user->id }}/{{ $user->avatar }}"  class="card-img rounded-circle" style="margin-left:25rem; width:15rem" alt=""><br><br>
+                <img src="storage/{{ $user->avatar }}"  class="card-img rounded-circle" style="margin-left:25%; margin-top:1rem; width:15rem" alt="">
+
+                <span><a class="btn btn-primary" style="margin-left:10%; margin-top:7rem;" href="/avatar/{{ auth()->id() }}/edit">change picture</a></span><br>
+
+            </div>
+
 
                 <h3 class="card-title " style="margin-right:10rem;">{{ $user->name }}</h3>
 
-                @if ($user->id === auth()->id())
 
-                    <a style="width:10rem;"  class="btn btn-primary" href="/avatar/{{ auth()->id() }}/edit">change picture</a><br>
-
-                @else
-
-                    <a style="width:10rem;"  class="btn btn-primary" href="">Add connection</a>
-
-                    <a style="width:10rem;"  class="btn btn-primary" href="">message</a>
-
-                @endif
+                <h5 class="card-title">{!! auth()->user()->education->first()->school ?? '<a class="btn btn-default" href="/education/create">Add education</a>' !!}</h5>
 
 
-                {{--  //school  --}}
-                @if($education)
-
-                    <h5 class="card-title">{{ $education->first()->school ?? 'Add education Background' }}</h5>
-
-                @endif
 
 
                 <div class="card-body">
@@ -44,19 +35,19 @@
 
             </div><br>
 
-            <a class="btn btn-default pull-right" href="/profile/{{ $user->id }}/edit">Edit Profile</a>
+            <a class="btn btn-default pull-right" href="/profile/{{ $user->id }}/edit"><i class="fa fa-edit"></i>Edit Profile</a>
             <div class="card">
+
+                <div class="card-header"><strong>Profile summary</strong></div>
 
                 {{--  //summary  --}}
                 <div class="card-body">
 
                     <div>
 
-                        <strong>Profile summary</strong>
-
                         <p class="card-text">
 
-                            {{ $summary }}
+                            {!! $summary !!}
 
                         </p>
 
@@ -70,7 +61,9 @@
 
             <div class="card">
 
-                    {{--  Solved Challenges  --}}
+                <div class="card-header"><strong>Solved Challenge(s)</strong></div>
+
+
                     <div class="card-body">
 
                         <p class="card-text">Show solved challenge shere</p>
@@ -82,50 +75,132 @@
 
             <div class="card">
 
-                {{--  education  --}}
+                <div class="card-header"><strong>Education History</strong></div>
 
                 <div class="card-body">
 
-                        <p class="card-text">
+                    <p class="card-text">
 
-                            Education Background
+                        @if (auth()->user()->education)
 
-                            @foreach ($education as $educate)
+                            <div class="col-md-10 offset-md-1">
 
-                                <div>
-                                    <strong>
-                                        {{ $educate->school }}
-                                    </strong> <br>
+                                <table class="table table-striped " >
 
-                                    <small>{{ $educate->Program }} ({{ $educate->educationCert->certificate }})</small>
+                                    @forelse(auth()->user()->education as $educate)
 
-                                </div><br>
+                                        <tr>
 
-                            @endforeach
+                                            <td>
 
-                        </p>
+                                                <strong>
+                                                    {{ $educate->school }}
+                                                </strong> <br>
+
+                                                {{ $educate->program }}   <small class="badge badge-primary">{{ $educate->educationCert['certificate'] }}</small>
+
+                                            </td>
+
+                                            <td><br>
+
+                                                {{ $educate->startDate }} <strong> - </strong> {{ $educate->completionDate ?? 'currently enrolled' }}
+
+
+                                                    <a style="padding:0.5rem;" class="badge badge-info offset-md-1" href="/education/{{ $educate->id }}/edit">Edit</a>
+
+                                            </td>
+
+                                        </tr>
+                                        <br>
+                                    @empty
+
+                                        <h4 class="title">No Education history Added</h4><br>
+
+                                    @endforelse
+
+                                </table>
+
+                            </div>
+
+                        @endif
+
+                    </p>
+
+                    <a style="width:15%;" class="btn btn-primary pull-right" href="/education/create">Add education</a>
 
                 </div>
 
             </div><br>
 
-
             <div class="card">
 
-                    {{--  Voluntering experience  --}}
+                <div class="card-header"><i class="fas fa-graduation-cap"></i><strong> Experience</strong></div>
 
                 <div class="card-body">
 
-                     <p class="card-text">Show v. experience</p>
+                    <p class="card-text">
+
+                        @if (auth()->user()->experience)
+
+                            <div class="col-md-10 offset-md-1">
+
+                                <table class="table table-striped " >
+
+                                    @forelse(auth()->user()->experience as $workingExperience)
+
+                                        <tr>
+
+                                            <td>
+
+                                                <strong>
+
+                                                    {{ $workingExperience->company }} <small class="badge badge-primary">{{ $workingExperience->position }}</small>
+
+                                                </strong> <br>
+
+                                                {!! $workingExperience->summary !!}
+
+                                            </td>
+
+                                            <td>
+
+                                                {{ $workingExperience->startDate }} <strong> - </strong> {{ $workingExperience->completionDate ?? 'current employee' }}
+                                                <br>
+
+                                                {{ 'Location:  ' .$workingExperience->location }}
+
+                                                 <a style="padding:0.5rem;" class="badge badge-info offset-md-1" href="/workingExperience/{{ $workingExperience->id }}/edit">Edit</a>
+
+
+                                            </td>
+
+                                        </tr>
+                                    <br>
+
+                                    @empty
+
+                                        <p class="title">No Experience Added</p><br>
+
+                                    @endforelse
+
+                                </table>
+
+                            </div>
+
+
+                        @endif
+
+                    </p>
+
+                    <a style="width:15%;" class="btn btn-primary pull-right" href="/workingExperience/create">Add experience</a>
 
                 </div>
 
             </div><br>
 
-
             <div class="card">
 
-                    {{--  interest  --}}
+                    <div class="card-header">Interest</div>
 
                     <div class="card-body">
 
@@ -137,7 +212,7 @@
 
             <div class="card">
 
-                    {{--  recommendation  --}}
+                    <div class="card-header">Recommendation(s)</div>
 
                     <div class="card-body">
 

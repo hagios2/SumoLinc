@@ -27,13 +27,15 @@ class ProfileFormRequest extends FormRequest
 
             'name' => ['required', 'string'],
 
+            'email' => ['required', 'email'],
+
             'date' => ['required', 'string'],
 
-            'email' => ['required', 'email'],
+            'summary' => ['required','string'],
 
             'country' => 'sometimes|string',
 
-            'state' => 'string',
+            'state' => 'nullable|string',
         ];
     }
 }

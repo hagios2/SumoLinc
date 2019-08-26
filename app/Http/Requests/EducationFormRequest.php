@@ -13,7 +13,7 @@ class EducationFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,18 @@ class EducationFormRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+
+            'school' => 'required|string',
+
+            'program' => 'required|string',
+
+            'cert' => 'required|integer',
+
+            'start_date' => 'required|date',
+
+            'currently_enrolled' => 'nullable|boolean',
+
+            'completion_date' => 'nullable|date',
         ];
     }
 }

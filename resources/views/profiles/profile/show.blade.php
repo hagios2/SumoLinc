@@ -7,14 +7,20 @@
         @include('includes.errors')
 
 
-        <div class="container">
+        <div class="col-md-11">
 
-            <div class="card" style="max-width: 120rem;">
+            <div class="card">
 
+                <div class="card-header">Profile of {{ $user->name }}</div>
 
-                <img src="storage/images/{{ $user->id }}/{{ $user->avatar }}"  class="card-img rounded-circle" style="margin-left:25rem; width:15rem" alt=""><br><br>
+                <div >
 
-                <h3 class="card-title " style="margin-right:10rem;">{{ $user->name }}</h3>
+                    <img src="/storage/{{ $user->avatar }}"  class="card-img rounded-circle" style="margin-left:25%; width:15rem" alt=""><br><br>
+
+                    <h3 class="card-title " style="margin-right:10rem;">{{ $user->name }}</h3>
+
+                </div>
+
 
                 @if ($user->id !== auth()->id())
 
@@ -53,12 +59,11 @@
 
             <div class="card">
 
-                {{--  //summary  --}}
+                <div class="card-header"><strong>Profile summary</strong></div>
+
                 <div class="card-body">
 
                     <div>
-
-                        <strong>Profile summary</strong>
 
                         <p class="card-text">
 
@@ -76,7 +81,8 @@
 
             <div class="card">
 
-                    {{--  Solved Challenges  --}}
+                <div class="card-header">Solved challenge(s)</div>
+
                     <div class="card-body">
 
                         <p class="card-text">Show solved challenge shere</p>
@@ -88,23 +94,23 @@
 
             <div class="card">
 
-                {{--  education  --}}
+                    <div class="card-header">Education History</div>
 
                 <div class="card-body">
 
                         <p class="card-text">
 
-                            Education Background
+                            @if ($user->education)
 
-                                <div>
-                                    <strong>
+                                @foreach ($user->education as $educated)
 
-                                    </strong> <br>
+                                @endforeach
 
+                            @else
 
+                                No education record found
 
-                                </div><br>
-
+                            @endif
 
                         </p>
 
@@ -115,7 +121,7 @@
 
             <div class="card">
 
-                    {{--  Voluntering experience  --}}
+                <div class="card-header">Experience</div>
 
                 <div class="card-body">
 
@@ -128,7 +134,7 @@
 
             <div class="card">
 
-                    {{--  interest  --}}
+                    <div class="card-header">Interest</div>
 
                     <div class="card-body">
 
@@ -140,7 +146,7 @@
 
             <div class="card">
 
-                    {{--  recommendation  --}}
+                    <div class="card-header">Recommendations</div>
 
                     <div class="card-body">
 
@@ -151,6 +157,8 @@
                 </div><br>
 
         </div>
+
+
 
 
 @endsection

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Certificate;
 use App\Education;
+use App\Http\Requests\EducationFormRequest;
 use Illuminate\Http\Request;
 
 class EducationController extends Controller
@@ -11,15 +13,7 @@ class EducationController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -28,9 +22,9 @@ class EducationController extends Controller
      */
     public function create()
     {
-        $allcert = Certificates::all();
+        $allcert = Certificate::all();
 
-        return view('userAccount.education_create', compact('allcert'));
+        return view('profiles.education.create', compact('allcert'));
     }
 
     /**
@@ -41,23 +35,30 @@ class EducationController extends Controller
      */
     public function store(EducationFormRequest $request)
     {
-        auth()->user()->addEducation($request);
 
-        return redirect('/profile')->withSuccess('Education Backgoround added');
+        Education::create([
+
+            'user_id' => auth()->id(),
+
+            'school' => $request->school,
+
+            'program' => $request->program,
+
+            'certificate_id' => $request->cert,
+
+            'startDate' => $request->start_date,
+
+            'TillDate' => $request->currently_enrolled ?? null,
+
+            'completionDate' => $request->completion_date ?? null,
+        ]);
+
+
+        return redirect('/profile')->withSuccess('Education History added');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Education  $education
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Education $education)
-    {
-        //
     }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Education  $education
@@ -65,9 +66,11 @@ class EducationController extends Controller
      */
     public function edit(Education $education)
     {
-        $allcert = Certificates::all();
+        abort_if($education->user_id !== auth()->id(), 403);
 
-        return view('profiles.education.edit', compact('allcert'));
+        $allcert = Certificate::all();
+
+        return view('profiles.education.edit', compact('allcert', 'education'));
     }
 
     /**
@@ -77,9 +80,28 @@ class EducationController extends Controller
      * @param  \App\Education  $education
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Education $education)
+    public function update(EducationFormRequest $request, Education $education)
     {
-        //
+        abort_if($education->user_id !== auth()->id(), 403);
+
+        $education->update([
+
+            'school' => $request->school,
+
+            'program' => $request->program,
+
+            'certificate_id' => $request->cert,
+
+            'startDate' => $request->start_date,
+
+            'TillDate' => $request->currently_enrolled ?? null,
+
+            'completionDate' => $request->completion_date ?? null,
+        ]);
+
+
+        return redirect('/profile')->withSuccess('Education History updated');
+
     }
 
     /**
@@ -90,6 +112,8 @@ class EducationController extends Controller
      */
     public function destroy(Education $education)
     {
+        abort_if($education->user_id !== auth()->id(), 403);
+        
         $education->delete();
 
         return redirect('/profile')->withSuccess('You removed an Educational background successfully');

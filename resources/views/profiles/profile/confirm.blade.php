@@ -6,52 +6,53 @@
 
         @include('includes.errors')
 
-
         <div class="container" style="width:45rem">
 
-            @forelse ($connections as $connection)
+            <div class="card">
 
-               <div class="card">
+                <div class="card-header">Connection request(s)</div>
 
-                    <div class="row card-body">
+            </div>
 
-                       @if ($connection->user->avatar !== 'noimage.jpg')
+                @forelse ($connections as $connection)
 
-                            <span><img style="width:10rem:" class="rounded-circle" src="storage/images/{{ $connection->user->id }}/{{ $connection->user->avatar }}" alt=""></span>
+                    <div class="card">
 
-                        @else
+                        <div class="row">
 
-                            <span><img style="width:10rem:" class="rounded-circle" style="width:10rem:" src="storage/images/noimage.jpg" alt=""></span>
+                        <div>
 
-                       @endif
+                            <img style="width:10%; margin-left:4rem; margin-top:0.5rem;" class="rounded-circle card-img" src="/storage/{{ $connection->user->avatar }}" alt="">
 
-                       <a href="/profile/{{ $connection->user->id }}"><strong>{{ $connection->user->name }}</strong></a>
+                            <a style="margin-top:1rem;" href="/view/{{ $connection->user->id }}/profile"><strong>{{ $connection->user->name }}</strong></a>
 
+                        </div>
+
+
+                        <div class="row">
+
+                            <form method="POST" style="margin-right:2rem; margin-left:20rem" action="/confirmed/{{ $connection->id }}/connections">
+                                @csrf
+                                @method('PATCH')
+
+                                <button class="btn btn-primary">Confirm</button>
+
+                            </form>
+
+
+                            <form method="POST" action="/reject/{{ $connection->id }}/connection">
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="btn btn-danger">Reject</button>
+
+                            </form>
+
+                        </div>
 
                     </div><br>
 
-                    <div class="row">
-
-                        <form method="POST" style="margin-right:2rem; margin-left:20rem" action="/confirmed/{{ $connection->id }}/connections">
-                            @csrf
-                            @method('PATCH')
-
-                            <button class="btn btn-primary">Confirm</button>
-
-                       </form>
-
-
-                       <form method="POST" action="/reject/{{ $connection->id }}/connection">
-                            @csrf
-                            @method('DELETE')
-
-                            <button class="btn btn-primary">Reject</button>
-
-                       </form>
-
-                    </div>
-
-               </div><br>
+                </div>
 
             @empty
 
@@ -63,9 +64,11 @@
 
                     </div>
 
-               </div>
+                </div>
 
             @endforelse
+
+            </div>
 
         </div>
 

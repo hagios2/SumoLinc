@@ -20,9 +20,9 @@ class CreateWorkingExperiencesTable extends Migration
             $table->string('position');
             $table->string('location')->nullable();
             $table->string('summary')->nullable();
-            $table->date('startDate');
-            $table->boolean('currentRole')->default(0);
-            $table->date('completionDate')->nullable();
+            $table->string('startDate');
+            $table->boolean('currentRole')->nullable();
+            $table->string('completionDate')->nullable();
             $table->timestamps();
         });
     }

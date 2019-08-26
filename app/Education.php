@@ -16,19 +16,9 @@ class Education extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function addEducation($attributes)
+    public function educationCert()
     {
-        $this->user()->create([
-
-            'school' => $attributes->school,
-
-            'program' => $attributes->cert,
-
-            'startDate' => $attributes->start_date,
-
-            'TillDate' => $attributes->currently_enrolled ?? null,
-
-            'completionDate' => $attributes->complettionDate ?? null,
-        ]);
+        return $this->belongsTo(Certificate::class, 'certificate_id');
     }
+
 }

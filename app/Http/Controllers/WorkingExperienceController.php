@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ExperienceFormRequest;
 use App\WorkingExperience;
 use Illuminate\Http\Request;
 
 class WorkingExperienceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -24,7 +16,7 @@ class WorkingExperienceController extends Controller
      */
     public function create()
     {
-        //
+        return view('profiles.experiences.create');
     }
 
     /**
@@ -33,21 +25,33 @@ class WorkingExperienceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ExperienceFormRequest $request)
     {
-        //
+        WorkingExperience::create([
+
+            'user_id' => auth()->id(),
+
+            'company' => $request->company,
+
+            'position' => $request->position,
+
+            'location' => $request->location,
+
+            'summary' => $request->summary,
+
+            'startDate' => $request->start_date,
+
+            'currentRole' => $request->current_employee ?? null,
+
+            'completionDate' => $request->completion_date ?? null,
+
+        ]);
+
+
+        return redirect('/profile')->withSuccess('Experience Added');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\WorkingExperience  $workingExperience
-     * @return \Illuminate\Http\Response
-     */
-    public function show(WorkingExperience $workingExperience)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -57,7 +61,9 @@ class WorkingExperienceController extends Controller
      */
     public function edit(WorkingExperience $workingExperience)
     {
-        //
+        abort_if( $workingExperience->user_id !== auth()->id(), 403);
+
+        return view('profiles.experiences.edit', compact('workingExperience'));
     }
 
     /**
@@ -67,9 +73,31 @@ class WorkingExperienceController extends Controller
      * @param  \App\WorkingExperience  $workingExperience
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, WorkingExperience $workingExperience)
+    public function update(ExperienceFormRequest $request, WorkingExperience $workingExperience)
     {
-        //
+
+
+        abort_if( $workingExperience->user_id !== auth()->id(), 403);
+
+        $workingExperience->update([
+
+            'company' => $request->company,
+
+            'position' => $request->position,
+
+            'location' => $request->location,
+
+            'summary' => $request->summary,
+
+            'startDate' => $request->start_date,
+
+            'currentRole' => $request->current_employee ?? null,
+
+            'completionDate' => $request->completion_date ?? null,
+
+        ]);
+
+        return redirect('/profile')->withSuccess('Experience updated');
     }
 
     /**
@@ -80,6 +108,10 @@ class WorkingExperienceController extends Controller
      */
     public function destroy(WorkingExperience $workingExperience)
     {
-        //
+        abort_if( $workingExperience->user_id !== auth()->id(), 403);
+
+        $workingExperience->delete();
+
+        return redirect('/profile')->withSuccess('Experience deleted');
     }
 }

@@ -8,93 +8,76 @@
 
         @include('includes.tab')
 
-        <div>
+        <div class="col-md-10">
 
-            <form action="/profile/{{ auth()->id() }}" method="POST">
-                @method('PATCH')
+            <div class="card">
 
-                @csrf
+                <div class="card-header">Edit Profile</div>
 
-                <div class="form-group">
+                <div class="card-body" id="app">
 
-                    <label for="name">Name</label>
+                    <div class="justify-content-center">
 
-                    <input type="text" name="name" class="form-control" placeholder="Enter name" value="{{ auth()->user()->name }}" id="">
+                        <form action="/profile/{{ auth()->id() }}" method="POST">
 
-                </div>
+                            @method('PATCH')
+
+                            @csrf
+
+                            <div class="form-group row">
+
+                                <label class="col-md-2 text-md-right" for="name"><i class="fas fa-user-alt"></i> Name</label>
+
+                                <input type="text" name="name" class="form-control col-md-8" placeholder="Enter name" value="{{ auth()->user()->name }}" id="">
+
+                            </div>
 
 
-                <div class="form-group">
+                            <div class="form-group row">
 
-                    <label for="email">Email</label>
+                                <label class="col-md-2 text-md-right" for="email"><i class="fa fa-envelope"></i> Email</label>
 
-                    <input type="email" name="email" class="form-control" placeholder="Enter email" value="{{ auth()->user()->email }}" id="">
+                                <input type="email" name="email" class="form-control col-md-8" placeholder="Enter email" value="{{ auth()->user()->email }}" id="">
 
-                </div>
+                            </div>
 
-                <div class="form-group">
-                    <label for="BOD">BirthDate</label>
+                            <div class="form-group row">
 
-                    <input type="date" class="form-control" required name="date" value="{{ $profile->BirthDate }}">
-                </div>
+                                <label class="col-md-2 text-md-right" for="BOD"><i class="fa fa-calendar"></i> D.O.B</label>
 
-                <div class="form-group">
+                                <input type="date" class="form-control col-md-8" required name="date" value="{{ $profile->BirthDate }}">
 
-                    <label for="Summary">Profile Summary</label>
+                            </div>
 
-                    <textarea class="form-control" name="summary" id="" value="{{ old('summary') }}" cols="10" rows="10" placeholder="Enter summary">{{ $profile->summary }}</textarea>
+                            <div class="form-group row">
 
-                </div>
+                                <label class="col-md-2 text-md-right" for="Summary"><i class="fa fa-edit"></i> Summary</label>
 
-                <div class="form-group">
+                                <textarea class="form-control col-md-8" name="summary" id="article-ckeditor" value="{{ old('summary') }}" cols="15" rows="10" placeholder="Enter summary">{{ $profile->summary }}</textarea>
 
-                    <label for="Country">Country</label>
+                            </div>
 
-                    <select class="form-control" class="form-control" name="country" id="country" style="width:60%">
+                            <state-component></state-component>
 
-                       {{--   @@if ()
+                            <button class="btn btn-primary " style="margin-left:20%" type="submit">Update</button>
 
-                        @else
+                            <a style="margin-left:5%" class="btn btn-success" href="/profile">View Profile</a>
 
-                        @endif  --}}
-                        <option value="{{ $profile->country }}">{{ $profile->country }}</option>
+                        </form>
 
-                        <option value="">Select country</option>
-
-                        @foreach($allcountries as $country)
-
-                            <option {{ (old('country') == $country) ? 'selected' : '' }} value="{{ $country }}">{{ $country }}</option>
-
-                        @endforeach
-
-                    </select>
+                    </div>
 
                 </div>
 
-
-                <div class="form-group">
-
-                    <label for="States">State</label>
-
-                    <input type="text" class="form-control" placeholder="Enter State" name="state" value="{{ $profile->State }}">
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="religion">Religion</label>
-
-                    <input type="text" class="form-control" placeholder="Enter Religion" name="religion" value="{{ $profile->Religion }}">
-
-                </div>
-
-                <button class="btn btn-primary" type="submit">Update</button>
-
-            </form>
+            </div>
 
         </div>
 
     </div>
 
+    @section('extra-js')
+
+    <script src="/js/app.js"></script>
+
+    @endsection
 @endsection

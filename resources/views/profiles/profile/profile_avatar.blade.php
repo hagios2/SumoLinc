@@ -9,36 +9,48 @@
 
         <div class="container">
 
-            <div>
+            <div class="card">
 
                 <div>
 
-                    <img src="storage/images/{{ $user->id }}/{{ $user->avatar }}"  class="rounded-circle" width="170rem" alt="">
+                    <img src="/storage/{{ $user->avatar }}"  class="rounded-circle card-img" style="margin-left:25%; width:15rem" alt="">
 
-                </div>
+                </div><br>
 
-                <div>
+                <div class="row">
 
                     <form action="/avatar/{{ auth()->id() }}" enctype="multipart/form-data" method="POST">
 
                         @csrf
+
                         @method('PATCH')
 
                         <div class="form-group">
 
-                            <label for="Profile_Picture">Upload Profile Picture</label>
-
-                            <input type="file" name="avatar" id="{{ auth()->id() }}">
+                            <input type="file" class="form-control-file col-md-6" name="avatar" id="{{ auth()->id() }}">
 
                         </div>
 
                         <div>
 
-                            <button class="btn btn-primary" type="submit">Update</button>
+                            <button class="btn btn-primary offset-md-2" type="submit">Update</button>
 
                         </div>
 
                     </form>
+
+                    @if($user->avatar !== 'images/noimage.jpg')
+
+                        <form action="/avatar/{{ $user->id }}" method="POST">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button class="btn btn-danger" type="submit">X Remove</button>
+
+                        </form>
+
+                    @endif
 
                 </div>
 

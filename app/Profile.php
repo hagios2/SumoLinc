@@ -8,7 +8,7 @@ class Profile extends Model
 {
     protected $fillable = [
 
-        'user_id', 'summary', 'birthdate', 'country', 'state',
+        'user_id', 'summary', 'BirthDate', 'country', 'State',
     ];
 
     public function owner()
@@ -16,19 +16,5 @@ class Profile extends Model
         return $this->belongsTo(User::class);
     }
 
-    
 
-    public function createProfile($attributes)
-    {
-        $this->owner()->create([
-
-            'summary' => $attributes->summary,
-
-            'birthdate' => $attributes->date,
-
-            'country' => $attributes->country,
-
-            'state' => $attributes->state,
-        ]);
-    }
 }

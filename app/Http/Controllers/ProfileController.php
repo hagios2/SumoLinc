@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Profile;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileFormRequest;
-use PragmaRX\Countries\Package\Services\Countries as PragmaRXCountries;
+use PragmaRX\Countries\Package\Countries;
+use App\Http\Resources\CountryResource;
+use Illuminate\Http\Response;
+
 
 class ProfileController extends Controller
 {
@@ -24,11 +27,9 @@ class ProfileController extends Controller
         {
             $user = auth()->user();
 
-            $summary = auth()->user()->profile->summary;
+            $summary = $user->profile->summary;
 
-            $education = auth()->user()->education->orderBy('created_at', 'DESC')->get();
-
-            return view('profiles.profile.index', compact('summary', 'education', 'user'));
+            return view('profiles.profile.index', compact('summary', 'user'));
 
         }else{
 
@@ -44,11 +45,9 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        $countries = new PragmaRXCountries();
 
-        $allcountries = $countries->all();
+       return view('profiles.profile.create');
 
-        return view('profiles.profile.create', compact('allcountries'));
     }
 
     /**
@@ -59,7 +58,22 @@ class ProfileController extends Controller
      */
     public function store(ProfileFormRequest $request)
     {
-       auth()->user()->createProfile($request);
+
+        $this->updateUser($request->name, $request->email);
+
+        Profile::create([
+
+        'user_id' => auth()->id(),
+
+        'summary' => $request->summary,
+
+        'birthdate' => $request->date,
+
+        'country' => $request->country ?? null,
+
+        'state' => $request->state ?? null,
+
+       ]);
 
        return redirect('/profile')->withSuccess('Profile was successfully created');
     }
@@ -83,7 +97,15 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        return view('profiles.profile.edit', compact($profile));
+        /* $this->authorize('update', $profile); */
+
+       abort_if($profile->user_id  !== auth()->id(), 403);
+
+        $countries = new Countries();
+
+        $allcountries = $countries->all()->pluck('name.common');
+
+        return view('profiles.profile.edit', compact('profile', 'allcountries'));
     }
 
     /**
@@ -95,7 +117,21 @@ class ProfileController extends Controller
      */
     public function update(ProfileFormRequest $request, Profile $profile)
     {
-        $profile->update([$request->all()]);
+        abort_if($profile->user_id  !== auth()->id(), 403);
+
+        $this->updateUser($request->name, $request->email);
+
+        $profile->update([
+
+            'summary' => $request->summary,
+
+            'BirthDate' => $request->date,
+
+            'country' => $request->country,
+
+            'State' => $request->state,
+
+        ]);
 
         return back()->withSuccess('Profile has been updated successfuly');
     }
@@ -108,8 +144,27 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
+        abort_if($profile->user_id  !== auth()->id(), 403);
+
         $profile->delete();
 
         return redirect('/')->withSuccess('Profile has been deleted');
     }
+
+
+    public function updateUser($new_name, $new_email)
+    {
+        if(auth()->user()->name !== $new_name || auth()->user()->email !== $new_email )
+        {
+            auth()->user()->update([
+
+                'name' => $new_name,
+
+                'email' => $new_email,
+            ]);
+        }
+
+
+    }
+
 }

@@ -20,8 +20,8 @@ class CreateEducationTable extends Migration
             $table->string('program');
             $table->unsignedInteger('certificate_id');
             $table->boolean('tillDate')->nullable();
-            $table->date('startDate');
-            $table->date('completionDate')->nullable();
+            $table->string('startDate');
+            $table->string('completionDate')->nullable();
             $table->timestamps();
         });
     }

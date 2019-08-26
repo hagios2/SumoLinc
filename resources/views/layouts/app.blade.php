@@ -7,10 +7,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Sumolinc') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" ></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -49,16 +49,44 @@
                                 </li>
                             @endif
                         @else
+
                             <li class="nav-item dropdown">
+
+                                <a class="nav-link" href="/confirm/connections" >
+
+                                    @if ($connectionRequests->count() > 0)
+
+                                        <h4><i class="fas fa-bell"></i> <span class="badge badge-primary">{{ $connectionRequests->count() }}</span></h4>
+
+                                    @endif
+
+                                </a>
+
+                            </li>
+
+                            <li class="nav-item dropdown">
+
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+
+                                    <img src="/storage/{{ auth()->user()->avatar }}" style="width:2rem" class="rounded-circle" alt="">
+
+                                    <small>{{ auth()->user()->name }}</small>
+
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item" href="/profile"><i class="fa fa-user"></i> Profile</a>
+
+                                    <a class="dropdown-item" href="/{{ auth()->user()->name }}/earnging"><i class="fa fa-dollar-sign"></i> Earngings</a>
+
+                                    <a class="dropdown-item" href="/{{ auth()->user()->name }}/inbox"><i class="fas fa-envelope-open-text"></i> Inbox</a>
+
+                                    <a class="dropdown-item" href="/{{ auth()->user()->name }}/settings"><i class="fas fa-user-cog"></i> Account Settings</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -76,5 +104,14 @@
             @yield('content')
         </main>
     </div>
+    @yield('extra-js')
+
+    <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'article-ckeditor' );
+    </script>
+
+
+
 </body>
 </html>

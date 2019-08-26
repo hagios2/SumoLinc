@@ -1,6 +1,8 @@
 <?php
 
+use App\Certificate;
 use Illuminate\Database\Seeder;
+
 
 class CertificatesTableSeeder extends Seeder
 {
@@ -11,47 +13,47 @@ class CertificatesTableSeeder extends Seeder
      */
     public function run()
     {
-        Certificates::create([
+        Certificate::create([
 
             'certificate' => 'Associates',
         ]);
 
-        Certificates::create([
+        Certificate::create([
 
             'certificate' => 'Bachelors',
         ]);
 
-        Certificates::create([
+        Certificate::create([
 
             'certificate' => 'Masters',
         ]);
 
-        Certificates::create([
+        Certificate::create([
 
             'certificate' => 'JD',
         ]);
 
-        Certificates::create([
+        Certificate::create([
 
             'certificate' => 'MBA',
         ]);
 
-        Certificates::create([
+        Certificate::create([
 
             'certificate' => 'MD',
         ]);
 
-        Certificates::create([
+        Certificate::create([
 
             'certificate' => 'DDS',
         ]);
 
-        Certificates::create([
+        Certificate::create([
 
             'certificate' => 'PHD',
         ]);
 
-        Certificates::create([
+        Certificate::create([
 
             'certificate' => 'PharmD',
         ]);

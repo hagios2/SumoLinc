@@ -46,4 +46,38 @@ class User extends Authenticatable
     {
         return $this->hasMany(Education::class);
     }
+
+    public function social()
+    {
+        return $this->hasOne(SocialMedia::class);
+    }
+
+    public function skill()
+    {
+        return $this->hasMany(Skills::class);
+    }
+
+
+    public function project()
+    {
+        return $this->hasMany(Projects::class);
+    }
+
+    public function experience()
+    {
+        return $this->hasMany(WorkingExperience::class);
+    }
+
+    public function connections()
+    {
+        return $this->hasMany(Connections::class);
+    }
+
+
+    public function addConnection($following_id)
+    {
+
+        $this->connections()->create(compact('following_id'));
+
+    }
 }
