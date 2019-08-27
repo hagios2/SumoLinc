@@ -79,7 +79,7 @@
 
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
 
-                                    <img src="/storage/{{ auth()->user()->avatar }}" style="width:2rem" class="rounded-circle" alt="">
+                                    <img src="{!! asset('/storage/'.auth()->user()->avatar) !!}" style="width:2rem" class="rounded-circle" alt="">
 
                                     <small>{{ auth()->user()->name }}</small>
 

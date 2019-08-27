@@ -13,7 +13,7 @@
 
             <div class="row">
 
-                <img src="storage/{{ $user->avatar }}"  class="card-img rounded-circle" style="margin-left:25%; margin-top:1rem; width:15rem" alt="">
+                <img src="/storage/{{ $user->avatar }}"  class="card-img rounded-circle" style="margin-left:25%; margin-top:1rem; width:15rem" alt="">
 
                 <span><a class="btn btn-primary" style="margin-left:10%; margin-top:7rem;" href="/avatar/{{ auth()->id() }}/edit">change picture</a></span><br>
 
