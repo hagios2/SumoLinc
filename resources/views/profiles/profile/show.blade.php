@@ -43,7 +43,7 @@
 
                     </form>
 
-                    <a class="btn btn-primary" href="">Message</a>
+                    <a class="btn btn-primary" href="/messages">Message</a>
 
                   </div>
 

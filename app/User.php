@@ -76,8 +76,17 @@ class User extends Authenticatable
 
     public function addConnection($following_id)
     {
-
         $this->connections()->create(compact('following_id'));
-
     }
+
+    public function sender()
+    {
+        return $this->hasMany(Messages::class, 'sender_id');
+    }
+
+    public function recipient()
+    {
+        return $this->hasMany(Messages::class, 'recipient_id');
+    }
+
 }

@@ -23,7 +23,7 @@
                 <h3 class="card-title " style="margin-right:10rem;">{{ $user->name }}</h3>
 
 
-                <h5 class="card-title">{!! auth()->user()->education->first()->school ?? '<a class="btn btn-default" href="/education/create">Add education</a>' !!}</h5>
+                <h5 class="card-title">{!! auth()->user()->education->last()->school ?? '<a class="btn btn-default" href="/education/create">Add education</a>' !!}</h5>
 
 
 
@@ -75,7 +75,7 @@
 
             <div class="card">
 
-                <div class="card-header"><strong>Education History</strong></div>
+                <div class="card-header"><i class="fas fa-graduation-cap"></i> <strong>Education History</strong></div>
 
                 <div class="card-body">
 
@@ -114,7 +114,7 @@
                                         <br>
                                     @empty
 
-                                        <h4 class="title">No Education history Added</h4><br>
+                                        <p class="title">No Education history Added</p><br>
 
                                     @endforelse
 
@@ -134,7 +134,7 @@
 
             <div class="card">
 
-                <div class="card-header"><i class="fas fa-graduation-cap"></i><strong> Experience</strong></div>
+                <div class="card-header"><i class="fas fa-user-md"></i>  <strong>Experience</strong></div>
 
                 <div class="card-body">
 

@@ -47,4 +47,5 @@ Route::resource('education', 'EducationController');
 
 Route::resource('workingExperience', 'WorkingExperienceController');
 
+Route::resource('messages', 'MessagesController');
 
