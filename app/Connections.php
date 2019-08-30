@@ -2,11 +2,18 @@
 
 namespace App;
 
+use App\Events\ConnectionRequestSent;
 use Illuminate\Database\Eloquent\Model;
 
 class Connections extends Model
 {
     protected $guarded = ['id'];
+
+    protected $dispatchesEvents = [
+
+        'created' => ConnectionRequestSent::class,
+
+    ];
 
     public function connectedTo()
     {

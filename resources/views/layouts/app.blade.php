@@ -54,22 +54,17 @@
 
                                 <a class="nav-link" href="/messages" >
 
-
                                     <h4><i class="fas fa-comments"></i> {{--  <span class="badge badge-primary"><span>  --}}</h4>
-
 
                                 </a>
 
                             </li>
 
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown ">
 
-                                <a class="nav-link" href="/confirm/connections" >
+                                <a class="nav-link " href="/confirm/connections" >
 
-
-                                    <h4><i class="fas fa-bell"></i> {!! $connectionRequests->count() > 0 ? '<span class="badge badge-primary">'. $connectionRequests->count(). '</span>' :'' !!}</h4>
-
-
+                                    <i class="fas fa-bell"></i>{!! $connectionRequests->count() > 0 ? '<span class="badge badge-primary">'. $connectionRequests->count(). '</span>' :'' !!}
 
                                 </a>
 

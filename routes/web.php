@@ -33,19 +33,21 @@ Route::patch('/avatar/{user}', 'UserController@update');
 
 Route::delete('/avatar/{user}', 'UserController@destroy');
 
-Route::get('/view/{user}/profile', 'OtherUsersProfileController@show');
+Route::get('/view/{user}/profile', 'ConnectionsController@show');
 
-Route::post('/add/{user}/connection', 'OtherUsersProfileController@store');
+Route::post('/add/{user}/connection', 'ConnectionsController@store');
 
-Route::get('/confirm/connections', 'OtherUsersProfileController@confirm');
+Route::get('/confirm/connections', 'ConnectionsController@confirm');
 
-Route::patch('/confirmed/{connection}/connections', 'OtherUsersProfileController@confirmed');
+Route::patch('/confirmed/{connections}/connections', 'ConnectionsController@update');
 
-Route::delete('/reject/{connection}/connection', 'OtherUsersProfileController@destroy');
+Route::delete('/reject/{connections}/connection', 'ConnectionsController@destroy');
 
 Route::resource('education', 'EducationController');
 
 Route::resource('workingExperience', 'WorkingExperienceController');
 
 Route::resource('messages', 'MessagesController');
+
+Route::get('/message/{user}', 'MessagesController@chatWith');
 
