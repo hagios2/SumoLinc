@@ -1,23 +1,15 @@
-@extends('layouts.app')
 
+<div class="container">
 
-@section('content')
+        <div class="col-md-6">
 
-    <div class="container">
-
-        <div class="row">
-
-           @include('chats.messagedFriends')
-
-            <div class="col-md-6">
-
-                <h4 class="title">Click on a user to start a conversation</h4>
-
-            </div>
+            <h4 class="title">Click on a user to start a conversation</h4>
 
         </div>
 
     </div>
 
-@endsection
+</div>
+
+
 

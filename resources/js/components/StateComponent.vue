@@ -19,7 +19,7 @@
                 <option value="" selected disabled v-if="selectedState == ''">Select State</option>
                 <option :value="selectedState" selected v-else>{{ selectedState }}</option>
                 <option v-for="state in states">{{ state }}</option>
-             </select>
+            </select>
 
 
         </div>
@@ -39,22 +39,21 @@
             }
         },
         created(){
-            console.log(window.location.href);
-            var url = window.location.href;
+            var url = window.location;
+            console.log(url);
             var reg = (/(http:\/\/127.0.0.1:8000\/profile\/)([0-9])+(\/)[a-zA-Z]*/);
             var test = reg.test(url);
+            console.log(test);
             if(test === true){
                 axios({
                 url: "/user/profile/country",
                 method: "get",
                 dataType: "json"
             })
-            .then(res=>{
-                console.log(res.data.data);
+            .then(res =>{
                 if(res.data.data){
                     this.selectedCountry = res.data.data[0].country;
                     this.selectedState = res.data.data[0].State;
-                    console.log(this.selectedState);
                 }
             })
             .catch(err =>{

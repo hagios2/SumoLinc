@@ -25,6 +25,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('state-component', require('./components/StateComponent.vue').default);
+Vue.component('message-component', require('./components/messageComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

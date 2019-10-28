@@ -7,6 +7,7 @@ use App\Http\Requests\MessagesRequest;
 use App\Messages;
 use App\User;
 use Illuminate\Http\Request;
+use App\Events\MessageSent;
 
 class MessagesController extends Controller
 {
@@ -25,8 +26,7 @@ class MessagesController extends Controller
     public function index()
     {
 
-
-        return view('chats.index', compact('messagedFriends'));
+        return view('chats.show');
     }
 
     /**
@@ -45,7 +45,7 @@ class MessagesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MessagesRequest $request)
+    public function store(Request $request)
     {
         /**
          * get user id from reqeust
@@ -60,52 +60,20 @@ class MessagesController extends Controller
         if($conversation)
         {
 
-           $conversation->addMessage(auth()->id(), $request->user, $request->message);
+          $message = $conversation->addMessage(auth()->id(), $request->user, nl2br($request->message));
 
         }else{
 
             $conversation = $this->createConversation(auth()->id(), $request->user);
 
-            $conversation->addMessage(auth()->id(), $request->user, $request->message);
+           $message = $conversation->addMessage(auth()->id(), $request->user, nl2br($request->message));
 
         }
 
-        return redirect('/message/'.$request->user);
+        broadcast(new MessageSent(auth()->user(), $message))->toOthers();
 
-    }
+        return ["message" => nl2br($request->message)];
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Messages  $messages
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Messages $messages)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Messages  $messages
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Messages $messages)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Messages  $messages
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Messages $messages)
-    {
-        //
     }
 
     /**
@@ -118,6 +86,7 @@ class MessagesController extends Controller
     {
         //
     }
+
 
     public function createConversation($user1_id, $user2_id)
     {
@@ -136,10 +105,11 @@ class MessagesController extends Controller
 
         ->orWhere([['user1_id', $user->id], ['user2_id', auth()->id()]])->first();
 
-        $messages = $conversation->message;
+        return $conversation->message;
 
-        return view('chats.show', compact('messages', 'user'));
+        //return MessageResource::collection($messages);
+     // return view('chats.show', compact('messages', 'user'));
     }
 
-
 }
+

@@ -47,7 +47,13 @@ Route::resource('education', 'EducationController');
 
 Route::resource('workingExperience', 'WorkingExperienceController');
 
-Route::resource('messages', 'MessagesController');
+Route::resource('messages', 'MessagesController'); 
 
+/* Route::get('/message/{user}', 'MessagesController@chatWith');
+
+Route::post('/messages', 'MessagesController@store');
+
+Route::get('/messages', 'MessagesController@index');
+
+*/
 Route::get('/message/{user}', 'MessagesController@chatWith');
-

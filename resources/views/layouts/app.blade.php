@@ -110,13 +110,13 @@
             @yield('content')
         </main>
     </div>
-    @yield('extra-js')
+
+ @yield('extra-js')
 
     <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
     <script>
         CKEDITOR.replace( 'article-ckeditor' );
     </script>
-
 
 
 </body>

@@ -27,7 +27,7 @@ class MessagesRequest extends FormRequest
 
             'user' => 'required|integer',
 
-            'message' => 'sometimes|string',
+            'message' => 'required|string',
         ];
     }
 }

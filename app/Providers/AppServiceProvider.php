@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('connectionRequests', Connections::where([['following_id', auth()->id()], ['confirmedConnection', '0']]));
         });
 
-        view()->composer('chats.messagedFriends', function($view){
+        view()->composer(['chats.show', 'chats.messagedFriends'], function($view){
 
             $view->with('messagedFriends', Conversation::where('user1_id', auth()->id())
                 ->orWhere('user2_id', auth()->id())

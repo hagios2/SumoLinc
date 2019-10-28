@@ -11,10 +11,10 @@ class Messages extends Model
     protected $guarded = ['id'];
 
 
-    protected $dispatchesEvents = [
+   /*  protected $dispatchesEvents = [
 
         'created' => MessageSent::class,
-    ];
+    ]; */
 
     public function chat()
     {
